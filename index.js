@@ -12,21 +12,8 @@ const app=express();
 //Apply Middleware
 app.use(express.json());
 
-//define routes
-app.get('/', (req,res)=>{
-    res.json('Welcome Home');
-    });
-    
-    app.post('/login',(req,res)=> {
-        res.json('Login successful');
-    });
-    
-    app.patch('/',(req,res) =>{
-        res.json('Welcome');
-    });
-
-    //Use routes
-    app.use(recipeRouter)
+//Use routes
+app.use(recipeRouter)
 
 //Listen for incoming request
 app.listen(3000, ()=> {
