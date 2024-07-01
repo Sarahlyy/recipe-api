@@ -13,8 +13,10 @@
   "description": "",
   "dependencies": {
     "-": "^0.0.1",
+    "@reis/mongoose-to-json": "^3.0.0",
     "D": "^1.0.0",
     "express": "^4.19.2",
+    "express-oas-generator": "^1.0.46",
     "mongoose": "^8.4.4",
     "nodemon": "^3.1.4",
     "normalize-mongoose": "^1.0.0"

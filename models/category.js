@@ -1,5 +1,6 @@
-import { Schema, model } from "mongoose";
-import normalize from "normalize-mongoose";
+import { Schema, model} from "mongoose";
+import {toJSON} from '@reis/mongoose-to-json'
+
 
 
 const categorySchema = new Schema({
@@ -10,5 +11,5 @@ const categorySchema = new Schema({
 });
 
 
-categorySchema.plugin(normalize);
+categorySchema.plugin(toJSON);
 export const categoryModel = model('Category', categorySchema)
