@@ -1,12 +1,24 @@
 import { RecipeModel } from "../models/recipe.js";
+import { localUpload } from "../middlewares/upload.js";
 
-//Get All Recipes
 
+
+
+
+ //Get All Recipes
 
 export const getRecipes = async (req, res, next) => {
     try {
+       //get query params
+       
+        const { limit, skip, search } = req.query;
+
         //Get all recipes from database
-        const allRecipes = await RecipeModel.find();
+
+        const allRecipes = await RecipeModel
+        .find({name:search})
+        .limit(limit)
+        .skip(skip);
         //Return all recipes as reponse
         res.json(allRecipes);
     } catch (error) {
@@ -18,9 +30,12 @@ export const getRecipes = async (req, res, next) => {
 export const postRecipe = async (req, res, next) => {
     try {
         //Add recipe to database
-        const allRecipes = await RecipeModel.create(req.body);
+        const newRecipes = await RecipeModel.create({
+            ...req.body,
+            image: req.file.filename
+        });
         //return response
-        res.json(allRecipes);
+        res.json(newRecipes);
     } catch (error) {
         next(error);
     }
@@ -31,7 +46,7 @@ export const postRecipe = async (req, res, next) => {
 export const patchRecipe = async (req, res, next) => {
     try {
         //update recipe by id
-        const updatedRecipe = await RecipeModel.findByIdAndUpdate(req.params.id, req.body,{new:true});
+        const updatedRecipe = await RecipeModel.findByIdAndUpdate(req.params.id, req.body, { new: true });
         //return response
         res.json(updatedRecipe)
         // res.json(`Recipe with ID ${req.params.id} updated`);
@@ -52,12 +67,12 @@ export const deleteRecipe = async (req, res, next) => {
         next(error);
     }
 }
-export const getRecipe = (req, res,next) => {
-  try {
-      res.json(req.params);
-  } catch (error) {
-    next(error);
-  }
+export const getRecipe = (req, res, next) => {
+    try {
+        res.json(req.params);
+    } catch (error) {
+        next(error);
+    }
 
 }
 
