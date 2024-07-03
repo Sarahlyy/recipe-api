@@ -1,6 +1,8 @@
 import express from "express";
 import recipeRouter from "./routes/recipe.js";
 import mongoose from "mongoose";
+import cors from "cors";
+
 //put this line of code to install swagger might automate though
 import expressOasGenerator from "express-oas-generator"
 import categoryRouter from "./routes/category .js";
@@ -19,6 +21,7 @@ expressOasGenerator.handleResponses(app, {
 });
 
 //Apply Middleware
+app.use(cors());
 app.use(express.json());
 app.use(express.static('uploads'));
 //Use routes

@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { getCategories, postCategory } from "../controllers/category.js";
-import { localUpload } from "../middlewares/upload.js";
+import { localUpload, remoteUpload } from "../middlewares/upload.js";
 
 // //create upload middleware
 // const upload=multer({dest:'uploads'});
@@ -11,7 +11,9 @@ const categoryRouter=Router()
 //Define routes
 categoryRouter.get('/categories',getCategories);
 
-categoryRouter.post('/categories',localUpload.single('image'), postCategory);
+
+
+categoryRouter.post('/categories',remoteUpload.single('image'), postCategory);
 
 
 

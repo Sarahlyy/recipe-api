@@ -3,11 +3,19 @@ import { categoryModel } from "../models/category.js";
 export const getCategories=async(req,res, next) =>{
     try {
         //get query params
-       
-        const { limit, skip, filter,fields } = req.query;
+    //    return res.json(req.query)
+        const { 
+            filter="{}",
+            sort="{}",
+            limit =10, 
+            skip=0,
+             fields="{}" ,
+            } = req.query;
+    
         //get all categies from, the database
         const allCategories =await categoryModel
-        .find(JSON.parse(filter))
+        .find( JSON.parse(filter))
+        .sort(JSON.parse(sort))
         .select(JSON.parse(fields))
         .limit(limit)
         .skip(skip);

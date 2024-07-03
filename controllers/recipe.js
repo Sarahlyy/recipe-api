@@ -11,15 +11,15 @@ export const getRecipes = async (req, res, next) => {
     try {
        //get query params
        
-        const { limit, skip, search } = req.query;
+        const { limit =10, skip=0, filter="{}",fields="{}" } = req.query;
 
-        //Get all recipes from database
-
+        // // //Get all recipes from database
         const allRecipes = await RecipeModel
-        .find({name:search})
+        .find(JSON.parse(filter))
+        .select(JSON.parse(fields))
         .limit(limit)
         .skip(skip);
-        //Return all recipes as reponse
+        // // //Return all recipes as reponse
         res.json(allRecipes);
     } catch (error) {
         next(error);
