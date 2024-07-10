@@ -2,12 +2,15 @@ import { Router } from "express";
 // import { RecipeModel } from "../models/recipe.js";
 import { deleteRecipe, getRecipe, getRecipes, patchRecipe, postRecipe } from "../controllers/recipe.js";
 import { localUpload, remoteUpload } from "../middlewares/upload.js";
+import { checkUserSession } from "../middlewares/auth.js";
 
 //
 //Create a router
 
 const recipeRouter = Router();
 
+//Apply Middlewares
+recipeRouter.use(checkUserSession)
 
 //Define routes
 
@@ -15,12 +18,12 @@ recipeRouter.get('/recipes', getRecipes);
 
 
 
-recipeRouter.post('/recipes',remoteUpload.single('image'),postRecipe);
+recipeRouter.post('/recipes',checkUserSession,remoteUpload.single('image'),postRecipe);
 
-recipeRouter.patch('/recipes/:id', patchRecipe);
+recipeRouter.patch('/recipes/:id',checkUserSession, patchRecipe);
 
 
-recipeRouter.delete('/recipes/:id', deleteRecipe);
+recipeRouter.delete('/recipes/:id',checkUserSession, deleteRecipe);
 
 
 

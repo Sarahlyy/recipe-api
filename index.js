@@ -1,11 +1,14 @@
 import express from "express";
+import cors from "cors";
 import recipeRouter from "./routes/recipe.js";
 import mongoose from "mongoose";
-import cors from "cors";
+import categoryRouter from "./routes/category .js";
+import session from "express-session";
 
 //put this line of code to install swagger might automate though
 import expressOasGenerator from "express-oas-generator"
-import categoryRouter from "./routes/category .js";
+
+import userRouter from "./routes/user.js";
 
 //connect to database
 await mongoose.connect(process.env.MONGO_URL);
@@ -24,9 +27,17 @@ expressOasGenerator.handleResponses(app, {
 app.use(cors());
 app.use(express.json());
 app.use(express.static('uploads'));
-//Use routes
-app.use(recipeRouter);
+app.use(session({
+    secret:process.env.SESSION_SECRET,
+    resave: false,
+    saveUninitialized: true,
+    cookie: { secure: true }
 
+}))
+
+//Use routes
+app.use(userRouter);
+app.use(recipeRouter);
 app.use(categoryRouter);
 //Put the 2 lines of code to install express
 expressOasGenerator.handleRequests();
