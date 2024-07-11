@@ -4,7 +4,7 @@ import recipeRouter from "./routes/recipe.js";
 import mongoose from "mongoose";
 import categoryRouter from "./routes/category .js";
 import session from "express-session";
-
+import MongoStore from "connect-mongo";
 //put this line of code to install swagger might automate though
 import expressOasGenerator from "express-oas-generator"
 
@@ -12,6 +12,7 @@ import userRouter from "./routes/user.js";
 
 //connect to database
 await mongoose.connect(process.env.MONGO_URL);
+
 
 
 //create express app
@@ -31,7 +32,10 @@ app.use(session({
     secret:process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: true,
-    cookie: { secure: true }
+    // cookie: { secure: true }
+    store:MongoStore.create({
+        mongoUrl:process.env.MONGO_URL
+    })
 
 }))
 
